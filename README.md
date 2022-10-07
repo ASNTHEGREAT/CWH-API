@@ -1,6 +1,6 @@
 # CWH-API
 
-# Assuming that you already have python, flask, docker daemon and python virtual environments downlaoded and installed, follow the steps below
+# Assuming that you already have python, flask, docker daemon and python virtual environments downloaded and installed, follow the steps below
 
 # RECORDING:
 # Step I: Download the recording folder virtually.
