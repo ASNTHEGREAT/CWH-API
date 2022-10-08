@@ -2,10 +2,34 @@ import uuid
 from flask import request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from Recording.resources.schemas import ItemSchema
 from db import items
 
 
 blp = Blueprint("Items", __name__, description="Operations on items")
+
+@blp.route("/item")
+class ItemList(MethodView):
+    def get(self):
+        return {"items": list(items.values())}
+    
+    @blp.arguments(ItemSchema)
+    def post(self, item_data):
+        item_data = request.get_json()
+
+        for item in items.values():
+            if(
+                item_data["name"] == item["name"]
+                and item_data["store_id"] == item["store_id"]
+            ):
+                abort(400, message=f"Item already exists.")
+        
+        item_id = uuid.uuid4().hex
+        item = {**item_data, "id": item_id}
+        items[item_id] = item
+
+        return item
+
 
 @blp.route("/item/<string:item_id>")
 class Item(MethodView):
